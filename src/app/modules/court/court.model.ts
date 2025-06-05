@@ -23,10 +23,12 @@ const countSchema = new Schema<ICourt>(
     name: {
       type: String,
       required: true,
+      trim: true,
     },
     price: {
       type: String,
       required: true,
+      trim: true,
     },
   },
   { timestamps: true },

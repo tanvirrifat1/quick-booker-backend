@@ -2,8 +2,8 @@ import express, { NextFunction, Request, Response } from 'express';
 import { USER_ROLES } from '../../../enums/user';
 import auth from '../../middlewares/auth';
 import fileUploadHandler from '../../middlewares/fileUploadHandler';
-import { courtSchemaValidation } from './court.validation';
 import { CourtController } from './court.controller';
+import { courtValidation } from './court.validation';
 const router = express.Router();
 
 router.post(
@@ -12,9 +12,25 @@ router.post(
   auth(USER_ROLES.ADMIN),
   (req: Request, res: Response, next: NextFunction) => {
     if (req.body.data) {
-      req.body = courtSchemaValidation.parse(JSON.parse(req.body.data));
+      req.body = courtValidation.courtSchemaValidation.parse(
+        JSON.parse(req.body.data),
+      );
     }
     return CourtController.createCountToDB(req, res, next);
+  },
+);
+
+router.patch(
+  '/update-court/:id',
+  fileUploadHandler,
+  auth(USER_ROLES.ADMIN),
+  (req: Request, res: Response, next: NextFunction) => {
+    if (req.body.data) {
+      req.body = courtValidation.courtSchemaValidationEdit.parse(
+        JSON.parse(req.body.data),
+      );
+    }
+    return CourtController.editCourt(req, res, next);
   },
 );
 
