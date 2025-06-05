@@ -12,3 +12,7 @@ const createCountToDB = async (data: ICourt) => {
   const result = await Court.create(data);
   return result;
 };
+
+export const CourtService = {
+  createCountToDB,
+};
