@@ -44,7 +44,18 @@ const editCourt = catchAsync(async (req, res) => {
   });
 });
 
+const deleteCourt = catchAsync(async (req, res) => {
+  const result = await CourtService.deleteCourt(req.params.id);
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Court deleted successfully',
+    data: result,
+  });
+});
+
 export const CourtController = {
   createCountToDB,
   editCourt,
+  deleteCourt,
 };

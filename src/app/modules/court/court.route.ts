@@ -34,4 +34,10 @@ router.patch(
   },
 );
 
+router.delete(
+  '/delete-court/:id',
+  auth(USER_ROLES.ADMIN),
+  CourtController.deleteCourt,
+);
+
 export const CourtRoutes = router;
