@@ -7,6 +7,7 @@ const countSchema = new Schema<ICourt>(
       type: String,
       required: true,
     },
+
     location: {
       type: {
         type: String,
@@ -18,6 +19,7 @@ const countSchema = new Schema<ICourt>(
         required: true,
       },
     },
+
     name: {
       type: String,
       required: true,

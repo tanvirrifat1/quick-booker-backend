@@ -9,7 +9,7 @@ const router = express.Router();
 router.post(
   '/create-court',
   fileUploadHandler,
-  auth(USER_ROLES.ADMIN, USER_ROLES.USER),
+  auth(USER_ROLES.ADMIN),
   (req: Request, res: Response, next: NextFunction) => {
     if (req.body.data) {
       req.body = courtSchemaValidation.parse(JSON.parse(req.body.data));
@@ -18,4 +18,4 @@ router.post(
   },
 );
 
-export const UserRoutes = router;
+export const CourtRoutes = router;

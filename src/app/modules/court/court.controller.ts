@@ -15,7 +15,9 @@ const createCountToDB = catchAsync(async (req, res) => {
     value.image = image[0];
   }
 
-  const result = await CourtService.createCountToDB(req.body);
+  console.log(value, 'value');
+
+  const result = await CourtService.createCountToDB(value);
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.OK,
