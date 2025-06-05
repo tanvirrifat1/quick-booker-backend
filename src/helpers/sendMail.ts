@@ -16,7 +16,7 @@ export async function sendEmail(email: string, subject: string, text: string) {
     });
 
     const info = await transporter.sendMail({
-      from: `"AI-MENTAL-HEALTH-CARE" ${config.email.from}`,
+      from: `"QUICK-BOOKER" ${config.email.from}`,
       to: email,
       subject: subject,
       html: `
@@ -151,7 +151,7 @@ export async function sendEmail(email: string, subject: string, text: string) {
                 <p>${text}</p>
               </div>
               <div class="email-footer">
-                &copy; ${new Date().getFullYear()} AI-MENTAL-HEALTH-CARE. All rights reserved.<br>
+                &copy; ${new Date().getFullYear()} QUICK-BOOKER. All rights reserved.<br>
                 <a href="https://internetoriginals.com">internetoriginals.com</a> | <a href="mailto:support@internetoriginals.com">Contact Support</a>
               </div>
             </div>

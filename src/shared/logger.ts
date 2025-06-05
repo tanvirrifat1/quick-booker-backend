@@ -26,11 +26,7 @@ const myFormat = printf(
 
 const logger = createLogger({
   level: 'info',
-  format: combine(
-    label({ label: 'AI-MENTAL-HEALTH-CARE' }),
-    timestamp(),
-    myFormat,
-  ),
+  format: combine(label({ label: 'QUICK-BOOKER' }), timestamp(), myFormat),
   transports: [
     new transports.Console(),
     new DailyRotateFile({
@@ -49,11 +45,7 @@ const logger = createLogger({
 
 const errorLogger = createLogger({
   level: 'error',
-  format: combine(
-    label({ label: 'AI-MENTAL-HEALTH-CARE' }),
-    timestamp(),
-    myFormat,
-  ),
+  format: combine(label({ label: 'QUICK-BOOKER' }), timestamp(), myFormat),
   transports: [
     new transports.Console(),
     new DailyRotateFile({
