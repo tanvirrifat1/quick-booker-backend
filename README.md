@@ -1,4 +1,4 @@
-# AI Mental Health Care App - Backend
+# Quick Booker App - Backend
 
 This repository contains the backend code for an innovative AI-powered Mental Health Care application. Designed to provide empathetic support and resources, this application leverages cutting-edge technologies to offer a personalized and interactive experience for users seeking mental wellness.
 
@@ -18,7 +18,7 @@ The backend is built with Node.js and Express.js, utilizing MongoDB with Mongoos
 ## Figma Design
 
 The UI/UX design for this application can be found on Figma:
-[Matticus Smith || Ai Mental Health App](https://www.figma.com/design/IT5RcH3OQ2ccHIx2plCATD/matticus_smith-%7C%7C-Ai-Mental-Health-App?node-id=1-3&p=f&t=dsnNSCym5D3k3y6r-0)
+[Quick Booker](https://www.figma.com/design/EZWcJV7Of9dTenCDljg5bX/Quick-Booker-App?node-id=0-1&p=f&t=rAyowCljy1QoMa2Z-0)
 
 ## 🛠️ Technologies Used
 
@@ -38,10 +38,3 @@ The UI/UX design for this application can be found on Figma:
 - OpenAI API Key
 
 ## 🚀 Getting Started
-
-### 1. Clone the Repository
-
-```bash
-git clone [https://github.com/tanvirrifat1/Ai-mental-health-care](https://github.com/tanvirrifat1/Ai-mental-health-care)
-cd Ai-mental-health-care
-```
