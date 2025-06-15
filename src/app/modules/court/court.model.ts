@@ -30,6 +30,20 @@ const countSchema = new Schema<ICourt>(
       required: true,
       trim: true,
     },
+    date: {
+      type: Date,
+      required: true,
+    },
+    startTime: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    endTime: {
+      type: String,
+      required: true,
+      trim: true,
+    },
   },
   { timestamps: true },
 );

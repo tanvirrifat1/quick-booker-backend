@@ -6,4 +6,7 @@ export type ICourt = {
     coordinates: [number, number];
   };
   image: string;
+  date: Date;
+  startTime: string;
+  endTime: string;
 };
