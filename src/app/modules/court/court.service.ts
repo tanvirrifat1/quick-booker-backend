@@ -5,16 +5,25 @@ import { Court } from './court.model';
 import unlinkFile from '../../../shared/unlinkFile';
 
 const createCountToDB = async (data: ICourt) => {
-  const isCountName = await Court.findOne({ name: data.name });
-  if (isCountName) {
-    throw new ApiError(StatusCodes.BAD_REQUEST, `${data.name} already exist!`);
+  const existingCourt = await Court.findOne({
+    name: data.name,
+    startTime: data.startTime,
+    endTime: data.endTime,
+  });
+
+  if (existingCourt) {
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      `"${data.name} from ${data.startTime} to ${data.endTime}" already exists.`,
+    );
   }
 
-  const date = new Date();
-  data.date = date;
+  const courtData = {
+    ...data,
+    date: data.date || new Date(),
+  };
 
-  const result = await Court.create(data);
-  return result;
+  return await Court.create(courtData);
 };
 
 const editCourt = async (id: string, data: ICourt) => {
@@ -33,8 +42,7 @@ const editCourt = async (id: string, data: ICourt) => {
     }
   }
 
-  const result = await Court.findOneAndUpdate({ _id: id }, data, { new: true });
-  return result;
+  return await Court.findOneAndUpdate({ _id: id }, data, { new: true });
 };
 
 const deleteCourt = async (id: string) => {
