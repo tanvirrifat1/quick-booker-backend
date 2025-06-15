@@ -40,4 +40,10 @@ router.delete(
   CourtController.deleteCourt,
 );
 
+router.get(
+  '/get-court-by-admin',
+  auth(USER_ROLES.ADMIN),
+  CourtController.getCourtByAdmin,
+);
+
 export const CourtRoutes = router;

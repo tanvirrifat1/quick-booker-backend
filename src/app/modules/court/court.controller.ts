@@ -54,8 +54,19 @@ const deleteCourt = catchAsync(async (req, res) => {
   });
 });
 
+const getCourtByAdmin = catchAsync(async (req, res) => {
+  const result = await CourtService.getCourtByAdmin(req.query);
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Court retrieved successfully',
+    data: result,
+  });
+});
+
 export const CourtController = {
   createCountToDB,
   editCourt,
   deleteCourt,
+  getCourtByAdmin,
 };
