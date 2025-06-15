@@ -9,6 +9,7 @@ export type IUser = {
   verified: boolean;
   image: string;
   phone: string;
+  isDeleted: boolean;
   authentication?: {
     isResetPassword: boolean;
     oneTimeCode: number;

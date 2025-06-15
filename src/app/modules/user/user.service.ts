@@ -166,10 +166,27 @@ const getSingleUser = async (id: string): Promise<IUser | null> => {
   return result;
 };
 
+const deleteAccount = async (user: JwtPayload): Promise<IUser | null> => {
+  const { id } = user;
+  const isExistUser = await User.isExistUserById(id);
+  if (!isExistUser) {
+    throw new ApiError(StatusCodes.BAD_REQUEST, "User doesn't exist!");
+  }
+  const updateDoc = await User.findOneAndUpdate(
+    { _id: id },
+    { isDeleted: true },
+    {
+      new: true,
+    },
+  );
+  return updateDoc;
+};
+
 export const UserService = {
   createUser,
   getUserProfileFromDB,
   updateProfileToDB,
   getSingleUser,
   getAllUsers,
+  deleteAccount,
 };

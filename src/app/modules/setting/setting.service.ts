@@ -3,32 +3,21 @@ import ApiError from '../../../errors/ApiError';
 import { ISetting } from './setting.interface';
 import { Setting } from './setting.model';
 
-// const createFromDb = async (data: ISetting) => {
-//   const isExistData = await Setting.findOne({ type: data.type });
-
-//   let result;
-
-//   if (isExistData) {
-//     result = await Setting.findOneAndUpdate(
-//       { type: data.type },
-//       { $set: { description: data.description, title: data.title } },
-//       { new: true },
-//     );
-//   } else {
-//     result = await Setting.create(data);
-//   }
-
-//   return result;
-// };
-
 const createFromDb = async (data: ISetting) => {
-  const isExistData = await Setting.findOne({ title: data.title });
+  const isExistData = await Setting.findOne({ type: data.type });
+
+  let result;
 
   if (isExistData) {
-    throw new ApiError(StatusCodes.BAD_REQUEST, `${data.title} already exist!`);
+    result = await Setting.findOneAndUpdate(
+      { type: data.type },
+      { $set: { description: data.description, title: data.title } },
+      { new: true },
+    );
+  } else {
+    result = await Setting.create(data);
   }
 
-  const result = await Setting.create(data);
   return result;
 };
 

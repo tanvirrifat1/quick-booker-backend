@@ -46,4 +46,10 @@ router.get(
   UserController.getUserProfile,
 );
 
+router.patch(
+  '/delete-account',
+  auth(USER_ROLES.USER),
+  UserController.deleteAccount,
+);
+
 export const UserRoutes = router;

@@ -32,6 +32,13 @@ const loginUserFromDB = async (payload: ILoginData) => {
     );
   }
 
+  if (isExistUser.isDeleted === true) {
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      'Your account has been deleted. Please contact support.',
+    );
+  }
+
   //check match password
   if (
     password &&

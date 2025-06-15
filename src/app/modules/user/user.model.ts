@@ -36,6 +36,14 @@ const userSchema = new Schema<IUser, UserModal>(
     image: {
       type: String,
     },
+    phone: {
+      type: String,
+      required: true,
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
     authentication: {
       type: {
         isResetPassword: {
