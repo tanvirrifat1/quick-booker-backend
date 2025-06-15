@@ -7,6 +7,8 @@ const courtSchemaValidation = z.object({
     type: z.literal('Point').default('Point'),
     coordinates: z.tuple([z.number(), z.number()]),
   }),
+  startTime: z.string({ required_error: 'Start Time is required' }),
+  endTime: z.string({ required_error: 'End Time is required' }),
 });
 
 const courtSchemaValidationEdit = z.object({
@@ -16,6 +18,8 @@ const courtSchemaValidationEdit = z.object({
     type: z.literal('Point').default('Point'),
     coordinates: z.tuple([z.number(), z.number()]),
   }),
+  startTime: z.array(z.string()).optional(),
+  endTime: z.array(z.string()).optional(),
 });
 
 export const courtValidation = {

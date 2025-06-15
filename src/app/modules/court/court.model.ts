@@ -7,7 +7,6 @@ const countSchema = new Schema<ICourt>(
       type: String,
       required: true,
     },
-
     location: {
       type: {
         type: String,
@@ -19,7 +18,6 @@ const countSchema = new Schema<ICourt>(
         required: true,
       },
     },
-
     name: {
       type: String,
       required: true,
@@ -37,12 +35,10 @@ const countSchema = new Schema<ICourt>(
     startTime: {
       type: String,
       required: true,
-      trim: true,
     },
     endTime: {
       type: String,
       required: true,
-      trim: true,
     },
   },
   { timestamps: true },

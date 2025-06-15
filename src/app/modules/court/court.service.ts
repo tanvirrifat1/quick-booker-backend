@@ -10,6 +10,9 @@ const createCountToDB = async (data: ICourt) => {
     throw new ApiError(StatusCodes.BAD_REQUEST, `${data.name} already exist!`);
   }
 
+  const date = new Date();
+  data.date = date;
+
   const result = await Court.create(data);
   return result;
 };
