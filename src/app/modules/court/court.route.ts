@@ -20,10 +20,30 @@ router.post(
   },
 );
 
+router.patch(
+  '/update-court/:id',
+  fileUploadHandler,
+  auth(USER_ROLES.ADMIN),
+  (req: Request, res: Response, next: NextFunction) => {
+    if (req.body.data) {
+      req.body = courtValidation.courtSchemaValidationUpdate.parse(
+        JSON.parse(req.body.data),
+      );
+    }
+    return CourtController.updateCourt(req, res, next);
+  },
+);
+
 router.get(
   '/get-court-by-admin',
   auth(USER_ROLES.ADMIN),
   CourtController.getCourtByAdmin,
+);
+
+router.get(
+  '/get-courts',
+  auth(USER_ROLES.USER, USER_ROLES.ADMIN),
+  CourtController.getAllCourts,
 );
 
 export const CourtRoutes = router;
