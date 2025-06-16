@@ -20,26 +20,6 @@ router.post(
   },
 );
 
-router.patch(
-  '/update-court/:id',
-  fileUploadHandler,
-  auth(USER_ROLES.ADMIN),
-  (req: Request, res: Response, next: NextFunction) => {
-    if (req.body.data) {
-      req.body = courtValidation.courtSchemaValidationEdit.parse(
-        JSON.parse(req.body.data),
-      );
-    }
-    return CourtController.editCourt(req, res, next);
-  },
-);
-
-router.delete(
-  '/delete-court/:id',
-  auth(USER_ROLES.ADMIN),
-  CourtController.deleteCourt,
-);
-
 router.get(
   '/get-court-by-admin',
   auth(USER_ROLES.ADMIN),

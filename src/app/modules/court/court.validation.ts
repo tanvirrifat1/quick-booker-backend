@@ -1,28 +1,31 @@
 import { z } from 'zod';
 
-const courtSchemaValidation = z.object({
-  name: z.string({ required_error: 'Name is required' }),
-  price: z.string({ required_error: 'Price is required' }),
-  location: z.object({
-    type: z.literal('Point').default('Point'),
-    coordinates: z.tuple([z.number(), z.number()]),
-  }),
-  startTime: z.string({ required_error: 'Start Time is required' }),
-  endTime: z.string({ required_error: 'End Time is required' }),
+export const slotSchema = z.object({
+  time: z.string(), // time string, e.g. "09:00"
+  isAvailable: z.boolean(),
 });
 
-const courtSchemaValidationEdit = z.object({
-  name: z.string().optional(),
-  price: z.string().optional(),
-  location: z.object({
-    type: z.literal('Point').default('Point'),
-    coordinates: z.tuple([z.number(), z.number()]),
+// AvailableSlot schema
+export const availableSlotSchema = z.object({
+  startDate: z.string().refine(date => !isNaN(Date.parse(date)), {
+    message: 'Invalid startDate format',
+  }), // store as ISO string for validation; parse to Date later if needed
+  endDate: z.string().refine(date => !isNaN(Date.parse(date)), {
+    message: 'Invalid endDate format',
   }),
-  startTime: z.array(z.string()).optional(),
-  endTime: z.array(z.string()).optional(),
+  isEveryday: z.boolean(),
+  slots: z.array(slotSchema),
+});
+
+// Court schema
+export const courtSchemaValidation = z.object({
+  name: z.string(),
+  price: z.number(),
+  address: z.string(),
+  slotTime: z.string(),
+  availableSlots: z.array(availableSlotSchema),
 });
 
 export const courtValidation = {
   courtSchemaValidation,
-  courtSchemaValidationEdit,
 };

@@ -15,41 +15,13 @@ const createCountToDB = catchAsync(async (req, res) => {
     value.image = image[0];
   }
 
+  console.log(value);
+
   const result = await CourtService.createCountToDB(value);
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.OK,
     message: 'Court created successfully',
-    data: result,
-  });
-});
-
-const editCourt = catchAsync(async (req, res) => {
-  const value = {
-    ...req.body,
-  };
-
-  let image = getFilePathMultiple(req.files, 'image', 'image');
-
-  if (image && image.length > 0) {
-    value.image = image[0];
-  }
-
-  const result = await CourtService.editCourt(req.params.id, value);
-  sendResponse(res, {
-    success: true,
-    statusCode: StatusCodes.OK,
-    message: 'Court created successfully',
-    data: result,
-  });
-});
-
-const deleteCourt = catchAsync(async (req, res) => {
-  const result = await CourtService.deleteCourt(req.params.id);
-  sendResponse(res, {
-    success: true,
-    statusCode: StatusCodes.OK,
-    message: 'Court deleted successfully',
     data: result,
   });
 });
@@ -66,7 +38,5 @@ const getCourtByAdmin = catchAsync(async (req, res) => {
 
 export const CourtController = {
   createCountToDB,
-  editCourt,
-  deleteCourt,
   getCourtByAdmin,
 };
