@@ -3,6 +3,7 @@ import ApiError from '../../../errors/ApiError';
 import { IBooking } from './booking.interface';
 import { Booking } from './booking.model';
 import { Court } from '../court/court.model';
+import { sendNotifications } from '../../../helpers/notificationHelper';
 
 const bookingCourt = async (payload: IBooking) => {
   const [existingBooking, court] = await Promise.all([
@@ -55,9 +56,47 @@ const bookingCourt = async (payload: IBooking) => {
 
   const booking = await Booking.create(payload);
 
+  const value = {
+    text: `Your booking for ${court.name} on ${payload.date} at ${payload.time} has been confirmed.`,
+    receiver: payload.user,
+  };
+
+  await sendNotifications(value);
+
   return booking;
+};
+
+const getAllBookings = async (query: Record<string, unknown>) => {
+  const { page, limit } = query;
+
+  const pages = parseInt(page as string) || 1;
+  const size = parseInt(limit as string) || 10;
+  const skip = (pages - 1) * size;
+
+  const result = await Booking.find()
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(size)
+    .populate({
+      path: 'court',
+      select: 'name image price -_id',
+    })
+    .lean();
+
+  const total = await Booking.countDocuments();
+
+  const data: any = {
+    result,
+    meta: {
+      page: pages,
+      limit: size,
+      total,
+    },
+  };
+  return data;
 };
 
 export const BookingService = {
   bookingCourt,
+  getAllBookings,
 };

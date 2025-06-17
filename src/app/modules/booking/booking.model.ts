@@ -7,6 +7,7 @@ const bookingSchema = new Schema<IBooking>(
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     date: { type: String },
     time: { type: String },
+    pending: { type: Boolean, default: true },
   },
   { timestamps: true },
 );

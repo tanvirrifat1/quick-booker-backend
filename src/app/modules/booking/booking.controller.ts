@@ -18,6 +18,17 @@ const bookingCourt = catchAsync(async (req, res) => {
   });
 });
 
+const getAllBookings = catchAsync(async (req, res) => {
+  const result = await BookingService.getAllBookings(req.query);
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Court retrieved successfully',
+    data: result,
+  });
+});
+
 export const BookingController = {
   bookingCourt,
+  getAllBookings,
 };

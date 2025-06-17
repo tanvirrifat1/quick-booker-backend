@@ -5,4 +5,5 @@ export type IBooking = {
   court: Types.ObjectId;
   date: string;
   time: string;
+  pending?: boolean;
 };
