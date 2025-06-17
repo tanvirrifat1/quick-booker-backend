@@ -44,4 +44,10 @@ router.get(
   CourtController.getAllCourts,
 );
 
+router.get(
+  '/get-courts-details/:id',
+  auth(USER_ROLES.USER, USER_ROLES.ADMIN),
+  CourtController.getCourtDetails,
+);
+
 export const CourtRoutes = router;

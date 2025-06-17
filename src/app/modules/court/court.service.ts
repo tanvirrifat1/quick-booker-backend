@@ -115,9 +115,20 @@ const getAllCourts = async (query: Record<string, unknown>) => {
   };
 };
 
+const getCourtDetails = async (id: string) => {
+  const isExist = await Court.exists({ _id: id });
+  if (!isExist) {
+    throw new ApiError(StatusCodes.BAD_REQUEST, 'Invalid court ID');
+  }
+
+  const court = await Court.findById(id).lean<ICourt>();
+  return court;
+};
+
 export const CourtService = {
   createCountToDB,
   getCourtByAdmin,
   getAllCourts,
   updateCourt,
+  getCourtDetails,
 };

@@ -66,9 +66,20 @@ const getAllCourts = catchAsync(async (req, res) => {
   });
 });
 
+const getCourtDetails = catchAsync(async (req, res) => {
+  const result = await CourtService.getCourtDetails(req.params.id);
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Court details retrieved successfully',
+    data: result,
+  });
+});
+
 export const CourtController = {
   createCountToDB,
   getCourtByAdmin,
   getAllCourts,
   updateCourt,
+  getCourtDetails,
 };
