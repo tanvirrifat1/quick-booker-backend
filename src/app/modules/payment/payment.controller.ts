@@ -21,6 +21,30 @@ const makePaymentIntent = catchAsync(async (req, res) => {
   });
 });
 
+const paymentConfirmation = catchAsync(async (req, res) => {
+  const data = await PaymentService.paymentConfirmation(req.body);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Payment intent  successfully',
+    data: data,
+  });
+});
+
+const paymentStatusCheck = catchAsync(async (req, res) => {
+  const data = await PaymentService.paymentStatusCheck();
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Payment status retrieved successfully',
+    data: data,
+  });
+});
+
 export const PaymentController = {
   makePaymentIntent,
+  paymentConfirmation,
+  paymentStatusCheck,
 };

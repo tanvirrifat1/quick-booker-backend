@@ -7,4 +7,5 @@ export type IPayment = {
   client_secret: string;
   status: string;
   transactionId: string;
+  booking?: Types.ObjectId;
 };

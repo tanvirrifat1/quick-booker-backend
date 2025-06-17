@@ -11,10 +11,12 @@ router.post(
   PaymentController.makePaymentIntent,
 );
 
-// router.patch(
-//   '/payment-confirmation',
-//   auth(USER_ROLES.USER),
-//   PaymentController.paymentConfirmation
-// );
+router.patch(
+  '/payment-confirmation',
+  auth(USER_ROLES.USER),
+  PaymentController.paymentConfirmation,
+);
+
+router.get('/payment-status-check', PaymentController.paymentStatusCheck);
 
 export const PaymentRoutes = router;
