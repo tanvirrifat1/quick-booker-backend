@@ -140,10 +140,99 @@ const paymentConfirmation = async (payload: IPayment) => {
 };
 
 const paymentStatusCheck = async () => {
-  const getPayment = await Payment.find({ status: 'pending' });
+  // Find all pending payments and populate court data
+  const getPayments = await Payment.find({ status: 'pending' }).populate(
+    'court',
+  );
 
-  return getPayment;
+  // If no pending payments found, return early
+  if (!getPayments.length) {
+    console.log('No pending payments found');
+    return getPayments;
+  }
+
+  // Iterate through each payment to update court slots
+  for (const payment of getPayments) {
+    const court: any = payment.court;
+
+    // Skip if court data is not populated or no availableSlots
+    if (!court || !court.availableSlots) {
+      console.log(
+        `Skipping payment ${payment._id}: No court or availableSlots`,
+      );
+      continue;
+    }
+
+    //@ts-ignore
+    const paymentDate = payment.slotDate;
+    //@ts-ignore
+    const paymentTime = payment.slotTime;
+
+    let slotDate, slot;
+
+    if (paymentDate && paymentTime) {
+      // Find the slot date in court.availableSlots
+      slotDate = court.availableSlots.find(
+        (slot: any) => slot.date === paymentDate,
+      );
+
+      if (!slotDate) {
+        console.log(
+          `Skipping payment ${payment._id}: Date ${paymentDate} not found in court ${court._id}`,
+        );
+        continue;
+      }
+
+      // Find the slot for the specified time
+      slot = slotDate.slots.find((s: any) => s.time === paymentTime);
+
+      if (!slot) {
+        console.log(
+          `Skipping payment ${payment._id}: Time ${paymentTime} not found for date ${paymentDate} in court ${court._id}`,
+        );
+        continue;
+      }
+    } else {
+      // Fallback: Use the first available date and first non-available slot
+      console.log(
+        `Payment ${payment._id}: No slotDate or slotTime, using fallback logic`,
+      );
+      slotDate = court.availableSlots[0]; // Use first date in availableSlots
+      if (!slotDate) {
+        console.log(
+          `Skipping payment ${payment._id}: No available slots in court ${court._id}`,
+        );
+        continue;
+      }
+
+      slot = slotDate.slots.find((s: any) => s.isAvailable === false);
+      if (!slot) {
+        console.log(
+          `Skipping payment ${payment._id}: No non-available slot found for date ${slotDate.date} in court ${court._id}`,
+        );
+        continue;
+      }
+    }
+
+    // Update the slot's isAvailable to true
+    slot.isAvailable = true;
+    console.log(
+      `Updated slot for court ${court._id}, date ${slotDate.date}, time ${slot.time} to isAvailable: true`,
+    );
+
+    // Save the updated court document
+    await Court.findByIdAndUpdate(court._id, {
+      availableSlots: court.availableSlots,
+    });
+  }
+
+  // Re-fetch payments to reflect updated court data
+  const updatedPayments = await Payment.find({ status: 'pending' }).populate(
+    'court',
+  );
+  return updatedPayments;
 };
+
 export const PaymentService = {
   makePaymentIntent,
   paymentConfirmation,
