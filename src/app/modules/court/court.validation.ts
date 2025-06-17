@@ -1,38 +1,24 @@
 import { z } from 'zod';
 
-export const slotSchema = z.object({
-  time: z.string(),
-  isAvailable: z.boolean(),
+const slotSchema = z.object({
+  time: z.string({ required_error: 'Time is required' }),
+  isAvailable: z.boolean().default(true),
 });
 
-export const availableSlotSchema = z.object({
-  startDate: z.string().refine(date => !isNaN(Date.parse(date)), {
-    message: 'Invalid startDate format',
-  }),
-  endDate: z.string().refine(date => !isNaN(Date.parse(date)), {
-    message: 'Invalid endDate format',
-  }),
-  isEveryday: z.boolean(),
-  slots: z.array(slotSchema),
-});
+const availableSlotSchema = z
+  .record(z.string(), z.array(slotSchema))
+  .default({});
 
-export const courtSchemaValidation = z.object({
-  name: z.string(),
-  price: z.number(),
-  address: z.string(),
-  slotTime: z.string(),
-  availableSlots: z.array(availableSlotSchema),
-});
-
-export const courtSchemaValidationUpdate = z.object({
-  name: z.string().optional(),
-  price: z.number().optional(),
-  address: z.string().optional(),
-  slotTime: z.string().optional(),
-  availableSlots: z.array(availableSlotSchema).optional(),
+const courtSchemaValidation = z.object({
+  name: z.string({ required_error: 'Name is required' }),
+  price: z.number({ required_error: 'Price is required' }),
+  address: z.string({ required_error: 'Address is required' }),
+  slotTime: z.string({ required_error: 'Slot time is required' }),
+  availableSlots: z
+    .array(availableSlotSchema)
+    .nonempty({ message: 'Available slots are required' }),
 });
 
 export const courtValidation = {
   courtSchemaValidation,
-  courtSchemaValidationUpdate,
 };

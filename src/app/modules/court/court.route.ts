@@ -12,9 +12,7 @@ router.post(
   auth(USER_ROLES.ADMIN),
   (req: Request, res: Response, next: NextFunction) => {
     if (req.body.data) {
-      req.body = courtValidation.courtSchemaValidation.parse(
-        JSON.parse(req.body.data),
-      );
+      req.body = JSON.parse(req.body.data);
     }
     return CourtController.createCountToDB(req, res, next);
   },

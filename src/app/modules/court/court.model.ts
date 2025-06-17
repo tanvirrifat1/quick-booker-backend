@@ -1,34 +1,17 @@
 import { model, Schema } from 'mongoose';
-import { ICourt } from './court.interface';
+import { IAvailableSlot, ICourt } from './court.interface';
 
-const slotSchema = new Schema({
-  time: {
-    type: String,
-    required: true,
+const slotSchema = new Schema(
+  {
+    time: { type: String, required: true },
+    isAvailable: { type: Boolean, required: true, default: true },
   },
-  isAvailable: {
-    type: Boolean,
-    required: true,
-  },
-});
+  { strict: false },
+);
 
 const availableSlotSchema = new Schema({
-  startDate: {
-    type: Date,
-    required: true,
-  },
-  endDate: {
-    type: Date,
-    required: true,
-  },
-  isEveryday: {
-    type: Boolean,
-    required: true,
-  },
-  slots: {
-    type: [slotSchema],
-    required: true,
-  },
+  date: { type: String, required: true },
+  slots: [slotSchema],
 });
 
 const courtSchema = new Schema<ICourt>({

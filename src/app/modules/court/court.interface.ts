@@ -1,23 +1,8 @@
-// export type ICourt = {
-//   name: string;
-//   price: string;
-
-//   image: string;
-//   date: Date;
-//   startTime: string;
-//   endTime: string;
-// };
-
-export type ISlot = {
-  time: string;
-  isAvailable: boolean;
-};
-
 export type IAvailableSlot = {
-  startDate: Date;
-  endDate: Date;
-  isEveryday: boolean;
-  slots: ISlot[];
+  [date: string]: {
+    time: string;
+    isAvailable: boolean;
+  }[];
 };
 
 export type ICourt = {
