@@ -9,6 +9,7 @@ const createUserZodSchema = z.object({
 
 const updateZodSchema = z.object({
   name: z.string().optional(),
+  phone: z.string().optional(),
 });
 
 export const UserValidation = {
