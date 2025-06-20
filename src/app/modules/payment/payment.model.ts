@@ -14,6 +14,7 @@ const paymentSchema = new Schema<IPayment>(
       enum: ['pending', 'completed', 'failed'],
       default: 'pending',
     },
+    booking: { type: Schema.Types.ObjectId, ref: 'Booking' },
   },
   { timestamps: true },
 );

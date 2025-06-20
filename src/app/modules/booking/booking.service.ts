@@ -79,7 +79,11 @@ const getAllBookings = async (query: Record<string, unknown>) => {
     .limit(size)
     .populate({
       path: 'court',
-      select: 'name image price -_id',
+      select: 'name image price address -_id',
+    })
+    .populate({
+      path: 'user',
+      select: 'name email image phone-_id',
     })
     .lean();
 

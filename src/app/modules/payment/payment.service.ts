@@ -61,10 +61,11 @@ const makePaymentIntent = async (payload: IPayment) => {
   const values = {
     user: payload.user,
     court: isBooking.court,
-    amount: isCourt?.price as number, // Store amount in cents
+    amount: isCourt?.price as number,
     transactionId: paymentIntent.id,
     status: mapStripeStatus(paymentIntent.status),
     client_secret: paymentIntent.client_secret,
+    booking: payload.booking,
   };
 
   const session = await mongoose.startSession();
@@ -80,17 +81,13 @@ const makePaymentIntent = async (payload: IPayment) => {
       );
     }
 
-    // Update booking status
-    const bookingStatus = await Booking.findOneAndUpdate(
-      { _id: payload.booking }, // Use booking ID, not court ID
-      { pending: false },
-      { new: true, session },
-    );
-
-    if (!bookingStatus) {
-      throw new ApiError(StatusCodes.BAD_REQUEST, 'Failed to update booking');
+    if (values?.status === 'completed') {
+      await Booking.findOneAndUpdate(
+        { _id: payload.booking },
+        { status: 'completed' },
+        { new: true },
+      );
     }
-
     // Commit transaction
     await session.commitTransaction();
 
@@ -202,8 +199,43 @@ const paymentStatusCheck = async () => {
   return updatedPayments;
 };
 
+const getAllPayments = async (query: Record<string, unknown>) => {
+  const { page = 1, limit = 10, ...filters } = query;
+
+  const pages = parseInt(page as string) || 1;
+  const size = parseInt(limit as string) || 10;
+  const skip = (pages - 1) * size;
+
+  // const filters: Record<string, unknown> = {
+  //   ...rest,
+  //   status: 'completed',
+  // };
+
+  const result = await Payment.find(filters)
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(size)
+    .populate({
+      path: 'user',
+      select: 'name-_id',
+    })
+    .lean();
+
+  const total = await Payment.countDocuments(filters);
+
+  return {
+    result,
+    meta: {
+      page: pages,
+      limit: size,
+      total,
+    },
+  };
+};
+
 export const PaymentService = {
   makePaymentIntent,
   paymentConfirmation,
   paymentStatusCheck,
+  getAllPayments,
 };

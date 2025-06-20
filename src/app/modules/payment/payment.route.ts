@@ -17,6 +17,12 @@ router.patch(
   PaymentController.paymentConfirmation,
 );
 
+router.get(
+  '/get-all-payments',
+  auth(USER_ROLES.ADMIN),
+  PaymentController.getAllPayments,
+);
+
 router.get('/payment-status-check', PaymentController.paymentStatusCheck);
 
 export const PaymentRoutes = router;
