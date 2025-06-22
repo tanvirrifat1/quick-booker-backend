@@ -95,6 +95,8 @@ const getAllCourts = async (query: Record<string, unknown>) => {
   const { page, limit, searchTerm, ...filterData } = query;
   const conditions: any[] = [];
 
+  conditions.push({ isDeleted: false });
+
   if (searchTerm) {
     conditions.push({
       $or: [
@@ -149,10 +151,21 @@ const getCourtDetails = async (id: string) => {
   return court;
 };
 
+const deleteCourt = async (id: string) => {
+  const isExist = await Court.exists({ _id: id });
+  if (!isExist) {
+    throw new ApiError(StatusCodes.BAD_REQUEST, 'Invalid court ID');
+  }
+
+  const result = await Court.findByIdAndUpdate(id, { isDeleted: true });
+  return result;
+};
+
 export const CourtService = {
   createCountToDB,
   getCourtByAdmin,
   getAllCourts,
   updateCourt,
   getCourtDetails,
+  deleteCourt,
 };

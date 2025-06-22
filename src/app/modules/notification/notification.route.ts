@@ -6,13 +6,13 @@ import { NotificationController } from './notification.controller';
 const router = express.Router();
 
 router.get(
-  '/',
-  auth(USER_ROLES.USER, USER_ROLES.ADMIN, USER_ROLES.USER),
+  '/get-notification',
+  auth(USER_ROLES.USER, USER_ROLES.ADMIN),
   NotificationController.getNotificationToDb,
 );
 
 router.patch(
-  '/',
+  '/update-notification/:id',
   auth(USER_ROLES.USER, USER_ROLES.ADMIN),
   NotificationController.readNotification,
 );
@@ -33,6 +33,12 @@ router.delete(
   '/delete-all',
   auth(USER_ROLES.ADMIN),
   NotificationController.deleteAllNotifications,
+);
+
+router.get(
+  '/get-notification-count',
+  auth(USER_ROLES.ADMIN),
+  NotificationController.getNotificationCount,
 );
 
 export const NotificationRoutes = router;

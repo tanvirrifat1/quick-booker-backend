@@ -50,4 +50,10 @@ router.get(
   CourtController.getCourtDetails,
 );
 
+router.delete(
+  '/delete-court/:id',
+  auth(USER_ROLES.USER, USER_ROLES.ADMIN),
+  CourtController.deleteCourt,
+);
+
 export const CourtRoutes = router;

@@ -36,13 +36,13 @@ const adminNotification = async (query: Record<string, unknown>) => {
 
   // Set default sort order to show new data first
 
-  const result = await Notification.find()
+  const result = await Notification.find({ type: 'ADMIN' })
 
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(size)
     .lean();
-  const total = await Notification.countDocuments();
+  const total = await Notification.countDocuments({ type: 'ADMIN' });
   const unread = await Notification.countDocuments({ read: false });
 
   const data: any = {
@@ -66,7 +66,15 @@ const adminReadNotification = async () => {
 };
 
 const deleteAllNotifications = async () => {
-  const result = await Notification.deleteMany({});
+  const result = await Notification.deleteMany({ type: 'ADMIN' });
+  return result;
+};
+
+const getNotificationCount = async () => {
+  const result = await Notification.countDocuments(
+    { type: 'ADMIN' },
+    { read: false },
+  );
   return result;
 };
 
@@ -76,4 +84,5 @@ export const NotificationService = {
   adminNotification,
   adminReadNotification,
   deleteAllNotifications,
+  getNotificationCount,
 };

@@ -26,7 +26,7 @@ const getFromDb = catchAsync(async (req, res) => {
 });
 
 const updateFromDb = catchAsync(async (req, res) => {
-  const result = await SettingService.updateFromDb(req.params.id, req.body);
+  const result = await SettingService.updateFromDb(req.params.type, req.body);
 
   sendResponse(res, {
     success: true,
@@ -35,6 +35,16 @@ const updateFromDb = catchAsync(async (req, res) => {
     data: result,
   });
 });
+// const updateFromDb = catchAsync(async (req, res) => {
+//   const result = await SettingService.updateFromDb(req.params.id, req.body);
+
+//   sendResponse(res, {
+//     success: true,
+//     statusCode: StatusCodes.CREATED,
+//     message: 'Setting updated successfully',
+//     data: result,
+//   });
+// });
 
 export const SettingController = {
   createFromDb,

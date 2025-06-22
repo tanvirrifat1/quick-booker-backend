@@ -39,6 +39,10 @@ const courtSchema = new Schema<ICourt>({
     type: [availableSlotSchema],
     required: true,
   },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 export const Court = model<ICourt>('Court', courtSchema);

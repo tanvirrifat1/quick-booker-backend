@@ -67,10 +67,22 @@ const deleteAllNotifications = catchAsync(
   },
 );
 
+const getNotificationCount = catchAsync(async (req: Request, res: Response) => {
+  const result = await NotificationService.getNotificationCount();
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Notification retrived Successfully',
+    data: result,
+  });
+});
+
 export const NotificationController = {
   getNotificationToDb,
   adminNotificationFromDB,
   readNotification,
   adminReadNotification,
   deleteAllNotifications,
+  getNotificationCount,
 };

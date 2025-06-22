@@ -12,4 +12,5 @@ export type ICourt = {
   address: string;
   slotTime: string;
   availableSlots: IAvailableSlot[];
+  isDeleted: boolean;
 };
