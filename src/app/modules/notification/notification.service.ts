@@ -71,10 +71,10 @@ const deleteAllNotifications = async () => {
 };
 
 const getNotificationCount = async () => {
-  const result = await Notification.countDocuments(
-    { type: 'ADMIN' },
-    { read: false },
-  );
+  const result = await Notification.countDocuments({
+    type: 'ADMIN',
+    read: false,
+  });
   return result;
 };
 
